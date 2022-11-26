@@ -30,19 +30,23 @@ func get_ttl(output_ping string) {
 
 	if ttl_array != nil {
 
-		color.Green("[+] Respondio")
+		color.Green("[+] La maquina respondio")
 		ttl, err := strconv.Atoi(strings.Split(ttl_array[0], delimitador)[1])
 		check(err)
-		if ttl == LINUX_TTL {
-			color.Green("[+] El ttl es: %v --> linux", ttl)
+		if ttl <= LINUX_TTL {
+			color.Green("[+] El ttl es: %v --> linux/macOS", ttl)
 			os.Exit(0)
 		}
-		if ttl == WINDOWS_TTL {
-			color.Green("[+] El ttl es: %v --> windows", ttl)
+		if ttl > LINUX_TTL && ttl <= WINDOWS_TTL {
+			color.Green("[+] El ttl es: %v --> Windows", ttl)
+			os.Exit(0)
+		}
+		if ttl > WINDOWS_TTL {
+			color.Green("[-] El ttl es: %v --> Solaris/AIX", ttl)
 			os.Exit(0)
 		} else {
-			color.Yellow("[-] El ttl es: %v --> Sistema Operativo desconocido", ttl)
-			os.Exit(0)
+			color.Yellow("[-] El ttl es: %v --> OS desconocido", ttl)
+			os.Exit(1)
 		}
 	}
 	color.Red("[!] La maquina no respondio")
@@ -81,9 +85,13 @@ func verify_os(ip_address string) {
 }
 
 func main() {
-	ip_address_flag := flag.String("ip", "", "Direccion IP")
+	ip_address := flag.String("ip", "", "Direccion IP")
 	flag.Parse()
-	ip_address := *ip_address_flag
+	if *ip_address == "" {
+		color.Red("[!] No indicaste la Direccion IP")
+		color.Yellow("[?] Usa la flag -ip <ip_address>")
+		os.Exit(1)
+	}
 	color.Yellow("[*] Verificando tu Sistema Operativo...")
-	verify_os(ip_address)
+	verify_os(*ip_address)
 }
