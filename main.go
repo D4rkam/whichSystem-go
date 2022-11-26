@@ -49,14 +49,14 @@ func get_ttl(output_ping string) {
 	os.Exit(1)
 }
 
-func windows(ip_address string) {
+func windows_os(ip_address string) {
 	out, err := exec.Command("C:/Windows/System32/ping", ip_address).Output()
 	check(err)
 	output_ping := string(out[:])
 	get_ttl(output_ping)
 }
 
-func linux(ip_address string) {
+func linux_os(ip_address string) {
 	out, err := exec.Command("/usr/bin/ping", ip_address).Output()
 	check(err)
 	output_ping := string(out[:])
@@ -67,12 +67,12 @@ func verify_os(ip_address string) {
 
 	if runtime.GOOS == "windows" {
 		color.Green("[+] Ejecutando ping en windows...")
-		windows(ip_address)
+		windows_os(ip_address)
 		return
 	}
 	if runtime.GOOS == "linux" {
 		color.Green("[+] Ejecutando ping en linux...")
-		linux(ip_address)
+		linux_os(ip_address)
 		return
 	} else {
 		color.Red("[-] Sistema Operativo no apto")
