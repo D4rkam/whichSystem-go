@@ -1,4 +1,4 @@
-module pingueador
+module whichSystem
 
 go 1.19
 
