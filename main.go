@@ -71,12 +71,12 @@ func linux_os(ip_address string) {
 func verify_os(ip_address string) {
 
 	if runtime.GOOS == "windows" {
-		color.Green("[+] Ejecutando ping en windows...")
+		color.Green("[*] Ejecutando ping en windows...")
 		windows_os(ip_address)
 		return
 	}
 	if runtime.GOOS == "linux" {
-		color.Green("[+] Ejecutando ping en linux...")
+		color.Green("[*] Ejecutando ping en linux...")
 		linux_os(ip_address)
 		return
 	} else {
